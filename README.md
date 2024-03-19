@@ -1,4 +1,5 @@
 
+---
 
 # Weather Forecast Web App
 
@@ -27,8 +28,8 @@ As the developer of Weather Forecast Web App, I played a significant role in des
 To use the Weather Forecast Web App, follow these steps:
 
 1. Clone the repository to your local machine.
-2. Install the required dependencies listed in the `requirements.txt` file.
-3. Run the `weather_forecast.py` script using Python.
+2. Ensure you have Python installed on your system.
+3. Run the `weather.py` script using Python.
 4. Enter the name of the city for which you want to fetch weather information in the provided search box.
 5. Click the search button to fetch and display the weather forecast for the entered city.
 
