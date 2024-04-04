@@ -9,11 +9,19 @@ Weather Forecast Web App is a web-based application designed to provide users wi
 
 Weather Forecast Web App provides the following key features:
 
-- **Weather Information**: Fetches real-time weather data from the OpenWeatherMap API based on the user-entered city.
-- **Location Search**: Allows users to search for weather information by entering the name of the desired city.
-- **Geocoding**: Utilizes the Geopy library to geocode the city name and obtain its coordinates for weather data retrieval.
-- **Timezone Display**: Displays the current local time for the entered city based on its geographical coordinates.
-- **Error Handling**: Provides error messages for cases where the entered city is not found or if there is an issue with fetching weather data.
+1. **Real-time Weather Information**: Fetches up-to-date weather data from the OpenWeatherMap API based on the user-entered city, providing accurate weather conditions such as temperature, humidity, wind speed, and more.
+
+2. **Location Search**: Allows users to search for weather information by entering the name of the desired city, enabling quick access to weather forecasts for various locations worldwide.
+
+3. **Geocoding Integration**: Utilizes the Geopy library to geocode the city name and obtain its coordinates for weather data retrieval. This ensures precise weather information corresponding to the specified location.
+
+4. **Timezone Display**: Displays the current local time for the entered city based on its geographical coordinates, enhancing user experience by providing relevant time information alongside weather forecasts.
+
+5. **Interactive Map Display**: Incorporates an interactive map feature using Folium, allowing users to visualize the location of the selected city on a map. This enhances spatial understanding and provides users with a comprehensive view of the city's geographical context.
+
+6. **Error Handling Mechanism**: Provides robust error handling to manage scenarios where the entered city is not found or there are issues with fetching weather data. Informative error messages guide users on how to proceed effectively in such cases.
+
+These features collectively create a comprehensive and user-friendly weather forecasting application, empowering users to access accurate weather forecasts and geographical insights seamlessly.
 
 ## GUI Design
 
