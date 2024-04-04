@@ -5,23 +5,24 @@ from timezonefinder import TimezoneFinder
 from datetime import datetime
 import requests
 from PIL import Image, ImageTk
-import pytz  # Add this import
+import pytz
+import folium
+import io
+
 
 # Create the root window
 root = tk.Tk()
 root.title("Weather APP")
-root.geometry("900x500+300+200")
+root.geometry("1400x600+200+100")
 root.resizable(False, False)
 
 
-# Function to fetch weather information
-# Function to fetch weather information
 def getWeather():
     city = textfield.get()
 
     # Geocoding
-    geolocator = Nominatim(user_agent="WeatherApp")
-    location = geolocator.geocode(city)
+    geolocator = Nominatim(user_agent="WeatherAPP")
+    location = geolocator.geocode(city, timeout=20000)
     if not location:
         messagebox.showerror("Error", "City not found")
         return
@@ -29,6 +30,13 @@ def getWeather():
     # Timezone
     obj = TimezoneFinder()
     result = obj.timezone_at(lng=location.longitude, lat=location.latitude)
+
+    # Fetch latitude and longitude coordinates
+    lat = location.latitude
+    lon = location.longitude
+    print(lat)
+    print(lon)
+
     home = pytz.timezone(result)
     local_time = datetime.now(home)
     current_time = local_time.strftime("%I:%M %p")
@@ -54,26 +62,64 @@ def getWeather():
         d.config(text=description)
         p.config(text=f"{pressure} Pa")
 
+        # Display map
+        displayMap()
+
     except Exception as e:
         messagebox.showerror(
             "Error", f"Failed to fetch weather data: {str(e)}")
 
 
+def displayMap():
+    city = textfield.get()
+
+    # Geocoding
+    geolocator = Nominatim(user_agent="WeatherAPP")
+    location = geolocator.geocode(city, timeout=20000)
+    if not location:
+        messagebox.showerror("Error", "City not found")
+        return
+
+    # Create folium map
+    m = folium.Map(location=[location.latitude,
+                   location.longitude], zoom_start=10)
+
+    # Generate PNG image from the map
+    img_data = m._to_png()
+
+    # Convert PNG image data to PhotoImage
+    map_photo = ImageTk.PhotoImage(data=img_data)
+
+    # Display folium map as an image in Tkinter
+    map_label.config(image=map_photo)
+    map_label.image = map_photo
+
+
+# icon
+image_icon = tk.PhotoImage(file="logo.png")
+root.iconphoto(False, image_icon)
+
 # Search box
+# Calculate the x-coordinate for the search box to center it horizontally
+search_box_width = 17
+window_width = 1400  # Width of the window
+search_box_x = (window_width - search_box_width * 25) // 2
 Search_image = ImageTk.PhotoImage(file="search.png")
 myimage = tk.Label(image=Search_image)
-myimage.place(x=20, y=20)
-
+myimage.place(x=search_box_x, y=20)
 textfield = tk.Entry(root, justify='center', width=17,
                      font=('poppins', 25, 'bold'), bg="#404040", border=0, fg="white")
-textfield.place(x=50, y=40)
+textfield.place(x=search_box_x+70, y=40)
 textfield.focus()
+
+# Bind the Return key event to getWeather function
+textfield.bind("<Return>", lambda event: getWeather())
 
 # Search button
 search_icon = ImageTk.PhotoImage(file="search_icon.png")
 search_button = tk.Button(image=search_icon, borderwidth=0,
                           cursor="hand2", bg="#404040", command=getWeather)
-search_button.place(x=400, y=34)
+search_button.place(x=search_box_x+380, y=34)
 
 # Logo
 logo_image = ImageTk.PhotoImage(file="logo.png")
@@ -89,24 +135,24 @@ clock.place(x=30, y=130)
 # Bottom box
 frame_image = ImageTk.PhotoImage(file="box.png")
 frame_myimage = tk.Label(image=frame_image)
-frame_myimage.pack(padx=5, pady=5, side=tk.BOTTOM)
+frame_myimage.place(x=10, y=370)
 
 # Labels
 label1 = tk.Label(root, text="WIND", font=(
     'Helvetica', 15, 'bold'), fg="white", bg="#1ab5ef")
-label1.place(x=120, y=400)
+label1.place(x=60, y=400)
 
 label2 = tk.Label(root, text="HUMIDITY", font=(
     'Helvetica', 15, 'bold'), fg="white", bg="#1ab5ef")
-label2.place(x=250, y=400)
+label2.place(x=200, y=400)
 
 label3 = tk.Label(root, text="DESCRIPTION", font=(
     'Helvetica', 15, 'bold'), fg="white", bg="#1ab5ef")
-label3.place(x=430, y=400)
+label3.place(x=380, y=400)
 
 label4 = tk.Label(root, text="PRESSURE", font=(
     'Helvetica', 15, 'bold'), fg="white", bg="#1ab5ef")
-label4.place(x=650, y=400)
+label4.place(x=600, y=400)
 
 # Weather information labels
 t = tk.Label(font=("arial", 70, "bold"), fg="#ee666d")
@@ -115,16 +161,21 @@ c = tk.Label(font=("arial", 15, 'bold'))
 c.place(x=400, y=250)
 
 w = tk.Label(text="...", font=("arial", 20, 'bold'), bg="#1ab5ef")
-w.place(x=113, y=430)
+w.place(x=60, y=430)
 
 h = tk.Label(text="...", font=("arial", 20, 'bold'), bg="#1ab5ef")
-h.place(x=280, y=430)
+h.place(x=230, y=430)
 
 d = tk.Label(text="...", font=("arial", 20, 'bold'), bg="#1ab5ef")
-d.place(x=445, y=430)
+d.place(x=350, y=430)
 
 p = tk.Label(text="...", font=("arial", 20, 'bold'), bg="#1ab5ef")
-p.place(x=670, y=430)
+p.place(x=600, y=430)
+
+# Map label
+map_label = tk.Label(root)
+# Adjust width and height as needed
+map_label.place(x=800, y=100, width=500, height=400)
 
 # Run the main event loop
 root.mainloop()
