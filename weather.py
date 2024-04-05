@@ -13,7 +13,7 @@ import io
 # Create the root window
 root = tk.Tk()
 root.title("Weather APP")
-root.geometry("1400x600+200+100")
+root.geometry("1400x550+200+100")
 root.resizable(False, False)
 
 
@@ -30,18 +30,18 @@ def getWeather():
     # Timezone
     obj = TimezoneFinder()
     result = obj.timezone_at(lng=location.longitude, lat=location.latitude)
+    timezone.config(text=result)
 
     # Fetch latitude and longitude coordinates
     lat = location.latitude
     lon = location.longitude
-    print(lat)
-    print(lon)
+    long_lat.config(text=f"{round(lat,4)}°N,{round(lon,4)}°E")
 
     home = pytz.timezone(result)
     local_time = datetime.now(home)
     current_time = local_time.strftime("%I:%M %p")
     clock.config(text=current_time)
-    name.config(text="CURRENT WEATHER")
+    name.config(text="CURRENT TIME")
 
     # Weather API
     api_url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid=da084e3d8a1642c137abfae81b2f3d92"
@@ -132,6 +132,14 @@ name.place(x=30, y=100)
 clock = tk.Label(root, font=("Helvetica", 20))
 clock.place(x=30, y=130)
 
+
+# timezone
+timezone = tk.Label(root, font=("arial", 15))
+timezone.place(x=1200, y=20)
+
+long_lat = tk.Label(root, font=("Helvetica", 17))
+long_lat.place(x=1150, y=43)
+
 # Bottom box
 frame_image = ImageTk.PhotoImage(file="box.png")
 frame_myimage = tk.Label(image=frame_image)
@@ -140,7 +148,7 @@ frame_myimage.place(x=10, y=370)
 # Labels
 label1 = tk.Label(root, text="WIND", font=(
     'Helvetica', 15, 'bold'), fg="white", bg="#1ab5ef")
-label1.place(x=60, y=400)
+label1.place(x=70, y=400)
 
 label2 = tk.Label(root, text="HUMIDITY", font=(
     'Helvetica', 15, 'bold'), fg="white", bg="#1ab5ef")
@@ -148,7 +156,7 @@ label2.place(x=200, y=400)
 
 label3 = tk.Label(root, text="DESCRIPTION", font=(
     'Helvetica', 15, 'bold'), fg="white", bg="#1ab5ef")
-label3.place(x=380, y=400)
+label3.place(x=350, y=400)
 
 label4 = tk.Label(root, text="PRESSURE", font=(
     'Helvetica', 15, 'bold'), fg="white", bg="#1ab5ef")
@@ -161,12 +169,13 @@ c = tk.Label(font=("arial", 15, 'bold'))
 c.place(x=400, y=250)
 
 w = tk.Label(text="...", font=("arial", 20, 'bold'), bg="#1ab5ef")
-w.place(x=60, y=430)
+w.place(x=70, y=430)
 
 h = tk.Label(text="...", font=("arial", 20, 'bold'), bg="#1ab5ef")
-h.place(x=230, y=430)
+h.place(x=220, y=430)
 
-d = tk.Label(text="...", font=("arial", 20, 'bold'), bg="#1ab5ef")
+d = tk.Label(text="...", font=("arial", 20, 'bold'),
+             bg="#1ab5ef", justify="center")
 d.place(x=350, y=430)
 
 p = tk.Label(text="...", font=("arial", 20, 'bold'), bg="#1ab5ef")
@@ -175,7 +184,7 @@ p.place(x=600, y=430)
 # Map label
 map_label = tk.Label(root)
 # Adjust width and height as needed
-map_label.place(x=800, y=100, width=500, height=400)
+map_label.place(x=840, y=100, width=500, height=400)
 
 # Run the main event loop
 root.mainloop()
