@@ -41,6 +41,10 @@ To use the Weather Forecast Web App, follow these steps:
 4. Enter the name of the city for which you want to fetch weather information in the provided search box.
 5. Click the search button to fetch and display the weather forecast for the entered city.
 
+
+## Screenshot of the web-app:
+![image](https://github.com/ipsita68/Weather-Forecast-WEB-APP/assets/121110612/489233df-2af8-4d2e-bb02-fb416128f2bc)
+
 ## Credits
 
 - **Geopy**: Used for geocoding city names to obtain their coordinates.
